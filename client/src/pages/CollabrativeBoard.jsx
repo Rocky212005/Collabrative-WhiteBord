@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import socket from "../socket/socket";
 import Canvas from "../components/Canvas";
 import Toolbar from "../components/Toolbar";
-import { FiUsers, FiCopy, FiCheck } from "react-icons/fi";
+import { FiUsers, FiCopy, FiCheck,FiMessageCircle } from "react-icons/fi";
+import Chat from "../components/Chat";
 
 const CollabrativeBoard = () => {
   const { roomId } = useParams();
+  
+  const navigate=useNavigate()
 
   const [color, setColor] = useState("#000000");
   const [brushSize, setBrushSize] = useState(2);
   const [tool, setTool] = useState("pencil");
   const [copied, setCopied] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   const handleClear = () => {
     socket.emit("clear-board", {
@@ -126,6 +130,36 @@ const CollabrativeBoard = () => {
         />
 
       </main>
+      {/* ================= CHAT BUTTON ================= */}
+      
+       {!showChat && (
+        <button
+          onClick={() => setShowChat(true)}
+          className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-slate-900 text-white shadow-2xl border border-slate-700 transition-all duration-300 hover:scale-110 hover:bg-slate-800"
+          title="Open Chat"
+        >
+
+          <FiMessageCircle size={25} />
+
+        </button>
+      )}
+
+
+      {/* ================================================= */}
+      {/* CHAT WINDOW */}
+      {/* ================================================= */}
+
+      {showChat && (
+        <div className="fixed bottom-6 right-6 z-50 h-[500px] w-[350px] overflow-hidden rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl">
+
+          <Chat
+            roomId={roomId}
+            onClose={() => setShowChat(false)}
+          />
+
+        </div>
+      )}
+
 
     </div>
   );

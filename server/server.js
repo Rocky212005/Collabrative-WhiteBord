@@ -50,6 +50,15 @@ io.on("connection", (socket) => {
   socket.on("clear-board", (data) => {
       io.to(data.roomId).emit("clear-board");
   });
+  
+  //CAHT MESSAGE EVENT 
+
+  socket.on("send-message",(data)=>{
+    
+    socket.to(data.roomId).emit("receive-message",data)
+  })
+
+
   socket.on("disconnect", () => {
     console.log("user disconnected..", socket.id)
   });

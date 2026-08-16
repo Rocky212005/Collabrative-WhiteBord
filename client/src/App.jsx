@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import CollabrativeBoard from './pages/CollabrativeBoard';
 import SimpleBoard from './pages/SimpleBoard';
 import CollabrativeRoom from './pages/CollabrativeRoom';
+import Chat from './components/Chat';
 
 const App = () => {
   return (
@@ -25,9 +26,11 @@ const App = () => {
           path="/board/:roomId"
           element={<CollabrativeBoard/>}
         />
+        <Route path="/chat/:roomId" element={<Chat />} />
+        
 
       </Routes>
-
+      
     </BrowserRouter>
   )
 }

@@ -1,10 +1,12 @@
+import "dotenv/config";
+
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 
 const app = express();
-
+const port=process.env.PORT || 3000
 // Allow requests from React
 app.use(cors());
 
@@ -13,7 +15,12 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://collabrative-white-bord.vercel.app",
+    origin: [
+      "http://localhost:5173",
+      "https://collabrative-white-bord.vercel.app"
+
+    ]
+      
   },
 });
 
@@ -66,6 +73,6 @@ io.on("connection", (socket) => {
 
 
 // Start the server
-httpServer.listen(5000, () => {
-  console.log("Server started on port 5000");
+httpServer.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
